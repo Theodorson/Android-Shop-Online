@@ -2,6 +2,7 @@ package com.example.shop_online;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,11 +23,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
        register.setOnClickListener(this);
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.RegisterButton:
                 startActivity(new Intent(this, RegisterActivity.class));
+                break;
+            case R.id.LoginButton:
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
     }

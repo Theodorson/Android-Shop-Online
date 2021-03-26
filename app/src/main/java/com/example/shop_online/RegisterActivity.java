@@ -52,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         switch(v.getId()){
             case R.id.RegisterButton:
                 registerUser();
-                hideFields(false);
                 break;
         }
     }
@@ -65,39 +64,37 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String confirmPassword = textConfirmPassword.getText().toString();
 
         if (validateForm(firstName, lastName, email, password, confirmPassword)){
+            hideFields(false);
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
 
-                                User user = new User(firstName,lastName,email);
+                            User user = new User(firstName,lastName,email);
 
-                                FirebaseDatabase.getInstance().getReference("Users")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user).addOnCompleteListener(task1 -> {
 
-                                        if (task.isSuccessful()){
-                                            Toast.makeText(RegisterActivity.this, "User has been registered!", Toast.LENGTH_LONG).show();
-                                            hideFields(true);
+                                        if (task1.isSuccessful()){
+                                            showToastMessage("User has been registered!");
+                                            startActivity(new Intent(this, LoginActivity.class));
                                         }
                                         else{
-                                            Toast.makeText(RegisterActivity.this, "Failed to register! Try again!", Toast.LENGTH_LONG).show();
-                                            hideFields(true);
+                                            showToastMessage("Failed to register! Try again!");
                                         }
 
-                                    }
-                                });
-                            }
-                            else {
-                                Toast.makeText(RegisterActivity.this, "Failed to register! Try again!", Toast.LENGTH_LONG).show();
-                                hideFields(true);
-                            }
+                                    });
+                        }
+                        else {
+                            showToastMessage("Failed to register! Try again!");
                         }
                     });
         }
+    }
+
+    private void showToastMessage(String s) {
+        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_LONG).show();
+        hideFields(true);
     }
 
     // validate function for all register fields
@@ -114,27 +111,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
 
-        if (firstName.length() < 5){
-            textFirstName.setError("The length of the first name must be at least 5!");
-            textFirstName.requestFocus();
-            return false;
-        }
-
         if (firstName.isEmpty()){
             textFirstName.setError("First name is required!");
             textFirstName.requestFocus();
             return false;
         }
 
-        // last name validating
-        if (!pattern.matcher(lastName).matches()){
-            textLastName.setError("Provide valid last name! (a-zA-Z, .)");
-            textLastName.requestFocus();
+        if (firstName.length() < 5){
+            textFirstName.setError("The length of the first name must be at least 5!");
+            textFirstName.requestFocus();
             return false;
         }
 
-        if (lastName.length() < 3){
-            textLastName.setError("The length of the last name must be at least 3!");
+
+
+        // last name validating
+        if (!pattern.matcher(lastName).matches()){
+            textLastName.setError("Provide valid last name! (a-zA-Z, .)");
             textLastName.requestFocus();
             return false;
         }
@@ -145,18 +138,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
 
+        if (lastName.length() < 3){
+            textLastName.setError("The length of the last name must be at least 3!");
+            textLastName.requestFocus();
+            return false;
+        }
+
+
         // email validating
+        if (email.isEmpty()){
+            textEmail.setError("Email address is required!");
+            textEmail.requestFocus();
+            return false;
+        }
+
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             textEmail.setError("Provide valid email!");
             textEmail.requestFocus();
             return false;
         }
 
-        if (email.isEmpty()){
-            textEmail.setError("Email address is required!");
-            textEmail.requestFocus();
-            return false;
-        }
+
 
         // password and confirm password validating
         if (password.isEmpty()){
