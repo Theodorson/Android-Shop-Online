@@ -79,6 +79,7 @@
             android:layout_marginTop="50dp"
             android:background="@drawable/rounded_corners_1"
             android:backgroundTint="#F1F1F1"
+            android:fontFamily="sans-serif-black"
             android:text="Login"
             android:textColor="#FFF"
             android:textSize="12sp" />
@@ -91,6 +92,7 @@
             android:layout_marginTop="120dp"
             android:background="@drawable/rounded_corners_1"
             android:backgroundTint="#F1F1F1"
+            android:fontFamily="sans-serif-black"
             android:text="Register"
             android:textColor="#FFF"
             android:textSize="12sp" />

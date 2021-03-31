@@ -24,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button register;
     private TextView textFirstName, textLastName, textEmail, textPassword, textConfirmPassword;
     private ProgressBar progressBar;
+
     private static final String TAG = "Test user";
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -121,6 +121,7 @@
             android:layout_marginTop="80dp"
             android:background="@drawable/rounded_corners_1"
             android:backgroundTint="#F1F1F1"
+            android:fontFamily="sans-serif-black"
             android:text="Register"
             android:textColor="#FFF"
             android:textSize="12sp" />
