@@ -1,10 +1,10 @@
 package com.example.shop_online;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.regex.Matcher;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button register;
     private TextView textFirstName, textLastName, textEmail, textPassword, textConfirmPassword;
     private ProgressBar progressBar;
-
+    private static final String TAG = "Test user";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +37,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         textFirstName = findViewById(R.id.TextFirstName);
         textLastName = findViewById(R.id.TextLastName);
-        textEmail = findViewById(R.id.TextEmail);
+        textEmail = findViewById(R.id.TextEmailRegister);
         textPassword = findViewById(R.id.TextPassword);
         textConfirmPassword = findViewById(R.id.TextConfirmPassword);
 
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBarRegister);
     }
 
     @Override
@@ -57,44 +54,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void registerUser() {
-        String firstName = textFirstName.getText().toString();
-        String lastName = textLastName.getText().toString();
-        String email = textEmail.getText().toString();
-        String password = textPassword.getText().toString();
-        String confirmPassword = textConfirmPassword.getText().toString();
+        String firstName = textFirstName.getText().toString().trim();
+        String lastName = textLastName.getText().toString().trim();
+        String email = textEmail.getText().toString().trim();
+        String password = textPassword.getText().toString().trim();
+        String confirmPassword = textConfirmPassword.getText().toString().trim();
 
         if (validateForm(firstName, lastName, email, password, confirmPassword)){
             hideFields(false);
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()){
-
-                            User user = new User(firstName,lastName,email);
-
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(task1 -> {
-
-                                        if (task1.isSuccessful()){
-                                            showToastMessage("User has been registered!");
-                                            startActivity(new Intent(this, LoginActivity.class));
-                                        }
-                                        else{
-                                            showToastMessage("Failed to register! Try again!");
-                                        }
-
-                                    });
-                        }
-                        else {
-                            showToastMessage("Failed to register! Try again!");
-                        }
-                    });
+            testEmailAndAddUser(firstName, lastName, email, password);
         }
-    }
-
-    private void showToastMessage(String s) {
-        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_LONG).show();
-        hideFields(true);
     }
 
     // validate function for all register fields
@@ -189,6 +158,59 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+    public void testEmailAndAddUser (String firstName, String lastName, String email, String password){
+        // test for email already associate with one account
+        mAuth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                    {
+                        // test for email
+                        if (!(Objects.requireNonNull(task.getResult()).getSignInMethods().isEmpty()))
+                        {
+                            showToastMessageAndHideFields("User with this email is already registered!");
+                            Log.i(TAG, "\"User with this email is already registered!\"");
+                        }
+
+                        // if there is no user with this email
+                        else{
+                            Log.i(TAG, "\"No user with this mail\"");
+
+                            // add user with email and password
+                            mAuth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()){
+
+                                            User user = new User(firstName,lastName,email);
+
+                                            FirebaseDatabase.getInstance().getReference("Users")
+                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .setValue(user).addOnCompleteListener(task2 -> {
+
+                                                if (task2.isSuccessful()){
+                                                    showToastMessageAndHideFields("User has been registered!");
+                                                    startActivity(new Intent(this, LoginActivity.class));
+                                                }
+                                                else{
+                                                    showToastMessageAndHideFields("Failed to register! Try again!");
+                                                }
+
+                                            });
+                                        }
+                                        else {
+                                            showToastMessageAndHideFields("Failed to register! Try again!");
+                                        }
+                                    });
+
+                        }
+                    }
+                    else{
+                        showToastMessageAndHideFields("Error!");
+                        Log.i(TAG, "\"Error\"");
+                    }
+                });
+
+    }
+
     public void hideFields (Boolean x){
         if (x)
         {
@@ -207,5 +229,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             textPassword.setVisibility(View.GONE);
             textConfirmPassword.setVisibility(View.GONE);
         }
+    }
+
+    private void showToastMessageAndHideFields(String s) {
+        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_LONG).show();
+        hideFields(true);
     }
 }
