@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-        // password and confirm password validating
+        // password validating
         if (password.isEmpty()){
             textPassword.setError("Password is required!");
             textPassword.requestFocus();
