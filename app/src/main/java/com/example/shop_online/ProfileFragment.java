@@ -3,14 +3,22 @@ package com.example.shop_online;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +28,11 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
     private Button logoutButton, cartButton, ordersButton;
+    private TextView userNameText;
+    private String userName;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,16 +78,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        Log.i("test","profile fragment");
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
         logoutButton = v.findViewById(R.id.logoutButton);
         cartButton = v.findViewById(R.id.cartButton);
         ordersButton = v.findViewById(R.id.ordersButton);
+        userNameText = v.findViewById(R.id.TextUserName);
         logoutButton.setOnClickListener(this);
         cartButton.setOnClickListener(this);
         ordersButton.setOnClickListener(this);
 
-        mAuth = FirebaseAuth.getInstance();
+
+        getUserNameFromDatabaseAndSetText();
         return v;
     }
 
@@ -93,6 +107,29 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+    public void getUserNameFromDatabaseAndSetText(){
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        String userId = mAuth.getCurrentUser().getUid();
+
+        databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               userName = snapshot.child("lastName").getValue().toString() + " " + snapshot.child("firstName").getValue().toString();
+               userNameText.setText(userName);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+
+    }
+
 
     public void logOut() {
         mAuth.signOut();

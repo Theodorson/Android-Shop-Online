@@ -2,12 +2,12 @@ package com.example.shop_online;
 
 public class Book {
 
-    public String name, author, publisher, language, publicationDate, description;
+    public String name, author, publisher, language, publicationDate, description, imageLink;
     public int pages;
     public float price;
 
     public Book(){}
-    public Book(String name, String author, String publisher, String language, String publicationDate, String description, int pages, float price)
+    public Book(String name, String author, String publisher, String language, String publicationDate, String description, String imageLink, int pages, float price)
     {
         this.name = name;
         this.author = author;
@@ -17,6 +17,7 @@ public class Book {
         this.description = description;
         this.pages = pages;
         this.price = price;
+        this.imageLink = imageLink;
     }
 
     public String getName() {
@@ -49,5 +50,9 @@ public class Book {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getImageLink() {
+        return imageLink;
     }
 }

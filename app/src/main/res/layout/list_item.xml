@@ -1,59 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="200dp"
+    android:background="@drawable/background_home"
+    android:orientation="horizontal">
+
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="168dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="9dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.028">
+        android:paddingBottom="10dp">
 
-        <ImageButton
-            android:id="@+id/bookImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:srcCompat="@tools:sample/avatars" />
+        <ImageView
+            android:id="@+id/bookImage"
+            android:layout_width="120dp"
+            android:layout_height="match_parent" />
+
 
         <LinearLayout
-            android:layout_width="237dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/TextBook"
+                android:id="@+id/BookText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Book Name" />
+                android:fontFamily="sans-serif-black"
+                android:gravity="fill_vertical"
+                android:text="Book Name"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/AuthorText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Author" />
+                android:fontFamily="sans-serif-black"
+                android:gravity="fill"
+                android:text="Author"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/PriceText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Price" />
+                android:fontFamily="@font/baloo"
+                android:gravity="center"
+                android:text="30"
+                android:textColor="#BF0808"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+
+

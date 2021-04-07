@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
@@ -22,6 +23,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView textEmail, textPassword;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private DatabaseBook databaseInit;
+
 
     private static final String TAG = "Test user";
 
@@ -42,8 +45,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         progressBar = findViewById(R.id.progressBarLogin);
 
+        databaseInit = new DatabaseBook();
     }
 
+    public void initDatabase(){
+        new Thread(() -> databaseInit.populateDatabase()).start();
+    }
 
 
     @Override
@@ -54,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.LoginButton:
                 loginUser();
+                //initDatabase();
                 break;
         }
     }

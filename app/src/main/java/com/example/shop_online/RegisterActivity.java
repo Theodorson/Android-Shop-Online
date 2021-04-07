@@ -43,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         textConfirmPassword = findViewById(R.id.TextConfirmPassword);
 
         progressBar = findViewById(R.id.progressBarRegister);
+
     }
 
     @Override
