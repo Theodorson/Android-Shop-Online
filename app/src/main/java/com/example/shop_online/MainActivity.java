@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
         bottomBarNavigation = findViewById(R.id.NavigationViewBar);
         navController = Navigation.findNavController(this, R.id.fragment);
-//        appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,R.id.profileFragment).build();
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,R.id.profileFragment, R.id.cartFragment).build();
         NavigationUI.setupWithNavController(bottomBarNavigation, navController);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//        Fragment fragment = new Fragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.homeFragment, fragment);
-//        transaction.commit();
+        Fragment fragment = new Fragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.homeFragment, fragment);
+        transaction.commit();
 
 
 

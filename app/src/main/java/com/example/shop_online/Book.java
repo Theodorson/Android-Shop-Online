@@ -1,10 +1,15 @@
 package com.example.shop_online;
 
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 public class Book {
 
-    public String name, author, publisher, language, publicationDate, description, imageLink;
-    public int pages;
-    public float price;
+    private String id, name, author, publisher, language, publicationDate, description, imageLink;
+    private int pages;
+    private float price;
+    private Bitmap image;
 
     public Book(){}
     public Book(String name, String author, String publisher, String language, String publicationDate, String description, String imageLink, int pages, float price)
@@ -20,6 +25,10 @@ public class Book {
         this.imageLink = imageLink;
     }
 
+
+    public String getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
@@ -55,4 +64,14 @@ public class Book {
     public String getImageLink() {
         return imageLink;
     }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
+
 }

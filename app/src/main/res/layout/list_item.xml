@@ -19,9 +19,9 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:id="@+id/bookImage"
+            android:id="@+id/BookImage"
             android:layout_width="120dp"
-            android:layout_height="match_parent" />
+            android:layout_height="150dp" />
 
 
         <LinearLayout

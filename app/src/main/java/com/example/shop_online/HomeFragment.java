@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,33 +14,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment{
-    private DatabaseReference database;
-    private ArrayList<Book> books;
+public class HomeFragment extends Fragment {
+    private FirebaseRecyclerAdapter adapter;
+    private RecyclerView recyclerView;
+    private Bitmap bitmapImage;
     private static final String TAG = "Test database";
 
     // TODO: Rename parameter arguments, choose names that match
@@ -82,8 +77,8 @@ public class HomeFragment extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        books = new ArrayList<>();
-        database = FirebaseDatabase.getInstance().getReference();
+
+
 
     }
 
@@ -91,56 +86,78 @@ public class HomeFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        retrieveDataFromDatabaseAndUpdateUI(view);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+
+
         Log.i(TAG, "Home Fragment");
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("books");
+
+        // Get data from database
+        FirebaseRecyclerOptions<Book> options =
+                new FirebaseRecyclerOptions.Builder<Book>()
+                        .setQuery(query, snapshot -> {
+                            int bookPages = Integer.parseInt(snapshot.child("pages").getValue().toString());
+                            float bookPrice = Float.parseFloat(snapshot.child("price").getValue().toString());
+                            String imageLink = snapshot.child("imageLink").getValue().toString();
+                            Book book = new Book(
+                                    snapshot.child("name").getValue().toString(),
+                                    snapshot.child("author").getValue().toString(),
+                                    snapshot.child("publisher").getValue().toString(),
+                                    snapshot.child("language").getValue().toString(),
+                                    snapshot.child("publicationDate").getValue().toString(),
+                                    snapshot.child("description").getValue().toString(),
+                                    imageLink,
+                                    bookPages,
+                                    bookPrice
+                            );
+                            return book;
+                        })
+                        .build();
 
 
+        // set the adapter
+        adapter = new FirebaseRecyclerAdapter<Book, BookViewHolder>(options) {
+            @NonNull
+            @Override
+            public BookViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.list_item, viewGroup,false);
 
-    public void retrieveDataFromDatabaseAndUpdateUI(View view){
-          Runnable runnable = new Runnable() {
-              @Override
-              public void run() {
-                  database.child("books").addValueEventListener(new ValueEventListener() {
-                      @Override
-                      public void onDataChange(@NonNull DataSnapshot snapshot) {
-                          for (DataSnapshot ds : snapshot.getChildren()) {
-                              String bookName = ds.child("name").getValue().toString();
-                              String bookAuthor = ds.child("author").getValue().toString();
-                              String bookPublisher = ds.child("publisher").getValue().toString();
-                              String bookPublicationDate = ds.child("publicationDate").getValue().toString();
-                              String bookDescription = ds.child("description").getValue().toString();
-                              String bookImageLink = ds.child("imageLink").getValue().toString();
-                              String bookLanguage = ds.child("language").getValue().toString();
-                              int bookPages = Integer.parseInt(ds.child("pages").getValue().toString());
-                              float bookPrice = Float.parseFloat(ds.child("price").getValue().toString());
-                              Book dataBook = new Book(bookName, bookAuthor, bookPublisher, bookLanguage, bookPublicationDate, bookDescription, bookImageLink, bookPages, bookPrice);
-                              books.add(dataBook);
+                return new BookViewHolder(view);
+            }
 
-                              Log.i(TAG, "retrieve data");
-                          }
-                      }
+            // bind data to list_item
+            @Override
+            protected void onBindViewHolder(@NonNull BookViewHolder holder, int position, @NonNull Book model) {
+                holder.setBookName(model.getName());
+                holder.setBookAuthor(model.getAuthor());
+                holder.setBookPrice(model.getPrice());
+                Picasso.get().load(model.getImageLink()).resize(100,150).into(holder.getImageView());
+            }
+        };
 
-                      @Override
-                      public void onCancelled(@NonNull DatabaseError error) {
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+    }
 
-                      }
-                  });
-                  requireActivity().runOnUiThread(new Runnable() {
-                      @Override
-                      public void run() {
-                          BookAdapter adapter = new BookAdapter(books);
-                          RecyclerView rv = view.findViewById(R.id.recyclerView);
-                          rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                          rv.setAdapter(adapter);
-                      }
-                  });
-              }
-          };
-            Executors.newSingleThreadScheduledExecutor().execute(runnable);
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
 
 }
+
+
