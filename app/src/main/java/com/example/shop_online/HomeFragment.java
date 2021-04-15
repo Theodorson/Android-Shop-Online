@@ -1,5 +1,6 @@
 package com.example.shop_online;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -7,13 +8,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,8 +41,7 @@ import java.net.URL;
 public class HomeFragment extends Fragment {
     private FirebaseRecyclerAdapter adapter;
     private RecyclerView recyclerView;
-    private Bitmap bitmapImage;
-    private static final String TAG = "Test database";
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,8 +94,6 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
 
-
-        Log.i(TAG, "Home Fragment");
         return view;
     }
 
@@ -133,8 +135,23 @@ public class HomeFragment extends Fragment {
             public BookViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
                 View view = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.list_item, viewGroup,false);
+                BookViewHolder bookViewHolder = new BookViewHolder(view);
+                bookViewHolder.setOnClickListener(new BookViewHolder.ClickListener(){
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Log.i("On click",String.valueOf(position));
+                        Fragment fragment = new Fragment();
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        Log.i("On click",String.valueOf(R.id.bookFragment));
+                        fragmentTransaction.replace(R.id.bookFragment, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
 
-                return new BookViewHolder(view);
+                    }
+                });
+
+                return bookViewHolder;
             }
 
             // bind data to list_item

@@ -37,6 +37,7 @@
                 android:fontFamily="sans-serif-black"
                 android:gravity="fill_vertical"
                 android:text="Book Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp" />
 
             <TextView
@@ -47,6 +48,7 @@
                 android:fontFamily="sans-serif-black"
                 android:gravity="fill"
                 android:text="Author"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="14sp" />
 
             <TextView
@@ -57,6 +59,7 @@
                 android:fontFamily="@font/baloo"
                 android:gravity="center"
                 android:text="30"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#BF0808"
                 android:textSize="20sp" />
 
