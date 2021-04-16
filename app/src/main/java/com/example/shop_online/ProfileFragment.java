@@ -134,8 +134,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void logOut() {
         mAuth.signOut();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

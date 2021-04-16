@@ -140,13 +140,20 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Log.i("On click",String.valueOf(position));
-                        Fragment fragment = new Fragment();
-                        FragmentManager fragmentManager = getChildFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        Log.i("On click",String.valueOf(R.id.bookFragment));
-                        fragmentTransaction.replace(R.id.bookFragment, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("book name", options.getSnapshots().get(position).getName());
+                        bundle.putString("book author", options.getSnapshots().get(position).getAuthor());
+                        bundle.putString("book language", options.getSnapshots().get(position).getLanguage());
+                        bundle.putString("book publisher", options.getSnapshots().get(position).getPublisher());
+                        bundle.putString("book publication date", options.getSnapshots().get(position).getPublicationDate());
+                        bundle.putString("book pages", String.valueOf(options.getSnapshots().get(position).getPages()));
+                        bundle.putString("book price", String.valueOf(options.getSnapshots().get(position).getPrice()));
+                        bundle.putString("book description", options.getSnapshots().get(position).getDescription());
+                        bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());
+
+                        Intent intent = new Intent(getActivity(),BookItemActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
 
                     }
                 });

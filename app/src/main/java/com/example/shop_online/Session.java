@@ -33,8 +33,8 @@ public class Session extends Application {
         FirebaseUser userInstance = mAuth.getCurrentUser();
         // test if exist current user or is null to Firebase
         if (userInstance != null){
-            Intent i = new Intent(Session.this, MainActivity.class);
-            startActivity(i);
+            Intent intent = new Intent(Session.this, MainActivity.class);
+            startActivity(intent);
         }
         else{
             Intent i = new Intent(Session.this, LoginActivity.class);

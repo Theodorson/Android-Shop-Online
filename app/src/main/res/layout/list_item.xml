@@ -21,7 +21,8 @@
         <ImageView
             android:id="@+id/BookImage"
             android:layout_width="120dp"
-            android:layout_height="150dp" />
+            android:layout_height="150dp"
+            android:rotation="-4" />
 
 
         <LinearLayout
