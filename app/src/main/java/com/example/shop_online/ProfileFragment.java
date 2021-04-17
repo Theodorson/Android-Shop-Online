@@ -1,24 +1,46 @@
 package com.example.shop_online;
 
+import android.app.usage.NetworkStats;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,10 +50,14 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
+    private FirebaseStorage storage;
     private DatabaseReference databaseReference;
     private Button logoutButton, cartButton, ordersButton;
     private TextView userNameText;
     private String userName;
+    private ImageView imageProfile;
+    private String userId, path, picturePath;
+    private Bitmap bitmap;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -72,6 +98,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        storage = FirebaseStorage.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
+        // single path for every user
+        // modify rules from firebase storage, just user with .auth.uid == uid can acces the correspondending image
+        path = "users/" + userId + "/profile.jpg";
     }
 
     @Override
@@ -88,8 +121,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         cartButton.setOnClickListener(this);
         ordersButton.setOnClickListener(this);
 
+        imageProfile = v.findViewById(R.id.profileImage);
+        imageProfile.setClickable(true);
+        imageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadImage();
+            }
+        });
 
+        // take details from user
+        // user name = last name + first name
         getUserNameFromDatabaseAndSetText();
+        // check if user has profile image, and set image
+        checkIfUserHasProfileImage();
+
         return v;
     }
 
@@ -109,10 +155,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getUserNameFromDatabaseAndSetText(){
-        mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        String userId = mAuth.getCurrentUser().getUid();
-
         databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -127,6 +169,93 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
 
         });
+
+    }
+
+    public void checkIfUserHasProfileImage(){
+        storage.getReference(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // image exist
+                Picasso.get().load(uri).resize(180,180).into(imageProfile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // image not found
+                Log.i("Database","Profil Image not found");
+            }
+        });
+
+
+    }
+
+
+    public void uploadImage(){
+        // Intent for acces media gallery
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto , 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode != RESULT_CANCELED) {
+            if (resultCode == RESULT_OK && data != null) {
+                Uri selectedImage =  data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                if (selectedImage != null) {
+                    Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        picturePath = cursor.getString(columnIndex);
+                        bitmap = adjustImage(picturePath);
+                        imageProfile.setImageBitmap(bitmap);
+
+                        // upload image to firebase storage
+                        uploadImageToFirebaseStorage();
+                        cursor.close();
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+
+    private void uploadImageToFirebaseStorage() {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] dataImage = stream.toByteArray();
+            // upload image on specific path for user
+            StorageReference storageReference = storage.getReference(path);
+            UploadTask uploadTask = storageReference.putBytes(dataImage);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getContext(),"Your image succesfully uploaded!",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+
+    public Bitmap adjustImage(String picturePath){
+        Bitmap b = null;
+        int reqHeight = 180, reqWidth = 180;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        b = BitmapFactory.decodeFile(picturePath, options);
+
+        // scale image with imageView width and height
+        b = Bitmap.createScaledBitmap(b, reqWidth, reqHeight, true);
+
+        return b;
 
     }
 
