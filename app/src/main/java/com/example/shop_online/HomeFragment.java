@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment {
                         bundle.putString("book price", String.valueOf(options.getSnapshots().get(position).getPrice()));
                         bundle.putString("book description", options.getSnapshots().get(position).getDescription());
                         bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());
-
+                        bundle.putInt("book position", position);
                         Intent intent = new Intent(getActivity(),BookItemActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);

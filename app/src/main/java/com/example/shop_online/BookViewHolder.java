@@ -1,12 +1,9 @@
 package com.example.shop_online;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BookViewHolder extends RecyclerView.ViewHolder{
@@ -19,7 +16,7 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
         bookName = v.findViewById(R.id.BookText);
         bookAuthor = v.findViewById(R.id.AuthorText);
         bookPrice = v.findViewById(R.id.PriceText);
-        bookImage = v.findViewById(R.id.BookImage);
+        bookImage = v.findViewById(R.id.cartBookImage);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
