@@ -34,7 +34,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder{
     }
 
     public void setCartItemPrice(float price){
-        cartItemPrice.setText(String.valueOf(price));
+        cartItemPrice.setText(String.valueOf(price) + " €");
     }
 
     public ImageView getCartImage(){

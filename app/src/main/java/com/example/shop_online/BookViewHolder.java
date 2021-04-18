@@ -32,8 +32,8 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
     public void setBookAuthor(String author){
         bookAuthor.setText(author);
     }
-    public void setBookPrice(Float price){
-        bookPrice.setText(price.toString()+" €");
+    public void setBookPrice(float price){
+        bookPrice.setText(String.valueOf(price) + " €");
     }
 
     public ImageView getImageView (){

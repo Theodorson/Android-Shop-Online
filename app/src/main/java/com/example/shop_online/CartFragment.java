@@ -117,7 +117,7 @@ public class CartFragment extends Fragment {
             @Override
             public CartViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
                 View view = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.list_item, viewGroup,false);
+                        .inflate(R.layout.cart_item, viewGroup,false);
                 CartViewHolder cartViewHolder = new CartViewHolder(view);
 
 
