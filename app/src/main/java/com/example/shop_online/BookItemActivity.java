@@ -109,6 +109,7 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
                 }
                 else{
                     CartItem cartItem = new CartItem(bookNameText.getText().toString(), imageLink, 1, price);
+                    cartItem.setIndex(position);
 
                     databaseReference.child(mAuth.getUid()).child("cart").child(String.valueOf(position)).setValue(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

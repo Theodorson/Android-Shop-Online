@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
                 .getReference()
                 .child("books");
 
-        // Get data from database
+        // Get data from database for how many items are on current screen
         FirebaseRecyclerOptions<Book> options =
                 new FirebaseRecyclerOptions.Builder<Book>()
                         .setQuery(query, snapshot -> {

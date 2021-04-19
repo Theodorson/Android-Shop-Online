@@ -12,6 +12,8 @@ public class CartViewHolder extends RecyclerView.ViewHolder{
     private final TextView cartItemName, cartItemQuantity, cartItemPrice;
     private final ImageView cartItemImage;
     private final Button addBtn, minusBtn, deleteBtn;
+    private int quantityItem;
+    private float priceItem;
 
     public CartViewHolder (View v) {
         super(v);
@@ -25,24 +27,35 @@ public class CartViewHolder extends RecyclerView.ViewHolder{
 
     }
 
+    public void incrementQuantity(){
+        quantityItem++;
+    }
+    public void decrementQuantity(){
+        if ( quantityItem > 1)
+            quantityItem--;
+    }
+
     public void setCartItemName(String name){
         cartItemName.setText(name);
     }
 
     public void setCartItemQuantity(int quantity){
         cartItemQuantity.setText(String.valueOf(quantity));
+        quantityItem = quantity;
     }
 
     public void setCartItemPrice(float price){
-        cartItemPrice.setText(String.valueOf(price) + " €");
+        priceItem = price;
+        float totalPrice = priceItem * quantityItem;
+        cartItemPrice.setText(String.valueOf(totalPrice) + " €");
     }
 
     public ImageView getCartImage(){
         return cartItemImage;
     }
-
-
-
-
+    public Button getAddBtn(){return  addBtn;}
+    public Button getMinusBtn(){return minusBtn;}
+    public Button getDeleteBtn(){return deleteBtn;}
+    public int getQuantityItem(){return quantityItem;}
 
 }

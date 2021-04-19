@@ -18,10 +18,18 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,9 +40,13 @@ public class CartFragment extends Fragment {
     private FirebaseRecyclerAdapter adapter;
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
+    private TextView totalPriceText, cartEmptyText;
+    private Button placeOrderBtn;
+    private ImageView cartEmptyImage;
+    private DatabaseReference databaseReference;
+    private ArrayList<CartItem> cartItems;
 
-
-
+    private float totalPrice;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,44 +87,86 @@ public class CartFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid());
+        cartItems = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_cart, container, false);
+
+        totalPriceText = view.findViewById(R.id.totalCartPrice);
+        placeOrderBtn = view.findViewById(R.id.placeOrderButton);
+        placeOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OrderActivity.class);
+                startActivity(intent);
+            }
+        });
+        calculateTotalPriceOfCartAndSetText();
+
         recyclerView = view.findViewById(R.id.recyclerViewCart);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
 
+        cartEmptyImage = view.findViewById(R.id.imageCartEmpty);
+        cartEmptyText = view.findViewById(R.id.textCartEmpty);
+
+
+
+
+
         return view;
     }
+
+
 
     @Override
     public void onStart() {
         super.onStart();
 
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("Users").child(mAuth.getUid()).child("cart");
+        Query query = databaseReference.child("cart");
 
-        // Get data from database
+        // Get data from database for how many items are on current screen
         FirebaseRecyclerOptions<CartItem> options =
                 new FirebaseRecyclerOptions.Builder<CartItem>()
                         .setQuery(query, snapshot -> {
                             String cartItemName = snapshot.child("name").getValue().toString();
-                            Log.i("data",cartItemName);
                             String cartItemImageLink = snapshot.child("imageLink").getValue().toString();
-                            Log.i("data",cartItemImageLink);
                             int cartItemQuantity = Integer.parseInt(snapshot.child("quantity").getValue().toString());
                             float cartItemPrice = Float.parseFloat(snapshot.child("price").getValue().toString());
-                            return new CartItem(cartItemName, cartItemImageLink, cartItemQuantity, cartItemPrice);
+                            CartItem cartItem = new CartItem(cartItemName, cartItemImageLink, cartItemQuantity, cartItemPrice);
+                            cartItem.setIndex(Integer.parseInt(snapshot.child("index").getValue().toString()));
+                            return cartItem;
                         })
                         .build();
 
 
         // set the adapter
         adapter = new FirebaseRecyclerAdapter<CartItem, CartViewHolder>(options) {
+
+            @Override
+            public void onDataChanged() {
+                super.onDataChanged();
+
+                if (adapter.getItemCount() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    totalPriceText.setVisibility(View.GONE);
+                    placeOrderBtn.setVisibility(View.GONE);
+                    cartEmptyText.setVisibility(View.VISIBLE);
+                    cartEmptyImage.setVisibility(View.VISIBLE);
+                }
+                    else {
+                        cartEmptyText.setVisibility(View.GONE);
+                        cartEmptyImage.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        totalPriceText.setVisibility(View.VISIBLE);
+                        placeOrderBtn.setVisibility(View.VISIBLE);
+                    }
+            }
+
             @NonNull
             @Override
             public CartViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -130,18 +184,91 @@ public class CartFragment extends Fragment {
                 holder.setCartItemName(model.getName());
                 holder.setCartItemQuantity(model.getQuantity());
                 holder.setCartItemPrice(model.getPrice());
-                Picasso.get().load(model.getImageLink()).resize(80,130).into(holder.getCartImage());
+                Picasso.get().load(model.getImageLink()).resize(80, 130).into(holder.getCartImage());
+
+                holder.getAddBtn().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.incrementQuantity();
+                        removeCartItemFromDatabase(model.getIndex(), 0, holder.getQuantityItem());
+                        calculateTotalPriceOfCartAndSetText();
+                    }
+                });
+
+                holder.getMinusBtn().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.decrementQuantity();
+                        removeCartItemFromDatabase(model.getIndex(), 0, holder.getQuantityItem());
+                        calculateTotalPriceOfCartAndSetText();
+                    }
+                });
+
+                holder.getDeleteBtn().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeCartItemFromDatabase(model.getIndex(), 1, holder.getQuantityItem());
+                        calculateTotalPriceOfCartAndSetText();
+                    }
+                });
             }
         };
 
+
+
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    private void removeCartItemFromDatabase(int modelPosition, int changeItem, int quantityItem){
+        switch (changeItem) {
+            case 0:
+                databaseReference.child("cart").child(String.valueOf(modelPosition)).child("quantity").setValue(quantityItem);
+                break;
+            case 1:
+                databaseReference.child("cart").child(String.valueOf(modelPosition)).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("data", "Remove successfully");
+                        }
+                        else {
+                            Log.i("data", "Remove failed");
+                        }
+                    }
+                });
+                break;
+        }
+    }
+
+
+    public void calculateTotalPriceOfCartAndSetText(){
+        totalPrice = 0;
+        databaseReference.child("cart").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot x : snapshot.getChildren()){
+                    int quantity = Integer.parseInt(x.child("quantity").getValue().toString());
+                    totalPrice += (Float.parseFloat(x.child("price").getValue().toString()) * quantity);
+                }
+                totalPriceText.setText(String.valueOf(totalPrice) + " €");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 
 
