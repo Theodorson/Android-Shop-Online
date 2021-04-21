@@ -1,9 +1,12 @@
 package com.example.shop_online;
 
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -42,6 +45,8 @@ public class Session extends Application {
         }
 
     }
+
+
 
 
 

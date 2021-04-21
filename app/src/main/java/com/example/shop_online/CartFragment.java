@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.transition.Transition;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class CartFragment extends Fragment {
     private Button placeOrderBtn;
     private ImageView cartEmptyImage;
     private DatabaseReference databaseReference;
-    private ArrayList<CartItem> cartItems;
+
 
     private float totalPrice;
 
@@ -88,7 +89,7 @@ public class CartFragment extends Fragment {
         }
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid());
-        cartItems = new ArrayList<>();
+
     }
 
     @Override

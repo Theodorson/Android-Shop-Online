@@ -1,8 +1,12 @@
 package com.example.shop_online;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -25,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
     private DatabaseBook databaseInit;
+    private AlertDialog.Builder dialog;
 
 
     private static final String TAG = "Test user";
@@ -45,8 +50,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textPassword = findViewById(R.id.TextPassword);
 
         progressBar = findViewById(R.id.progressBarLogin);
-
-        databaseInit = new DatabaseBook();
+        dialog = new AlertDialog.Builder(LoginActivity.this);
+        dialog.setTitle("Internet problem!");
+        dialog.setMessage("Check your internet connection!");
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        //databaseInit = new DatabaseBook();
 
     }
 
@@ -59,14 +72,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.RegisterButton:
-                startActivity(new Intent(this, RegisterActivity.class));
+                if (checkInternetConnection())
+                {
+                    startActivity(new Intent(this, RegisterActivity.class));
+                }
+                else{
+                    AlertDialog alert = dialog.create();
+                    alert.show();
+                }
                 break;
             case R.id.LoginButton:
-                loginUser();
+                if (checkInternetConnection())
+                {
+                    loginUser();
+                }
+                else{
+                    AlertDialog alert = dialog.create();
+                    alert.show();
+                }
                 //initDatabase();
                 break;
         }
     }
+
+    public boolean checkInternetConnection(){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+
 
     public void loginUser(){
         String email = textEmail.getText().toString().trim();
@@ -78,7 +113,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .addOnCompleteListener(task -> {
 
                     if (task.isSuccessful()){
-                        Log.i(TAG,"Login successsful!");
                         hideFields(true);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

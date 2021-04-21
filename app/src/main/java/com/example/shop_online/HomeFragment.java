@@ -139,7 +139,6 @@ public class HomeFragment extends Fragment {
                 bookViewHolder.setOnClickListener(new BookViewHolder.ClickListener(){
                     @Override
                     public void onItemClick(View view, int position) {
-                        Log.i("On click",String.valueOf(position));
                         Bundle bundle = new Bundle();
                         bundle.putString("book name", options.getSnapshots().get(position).getName());
                         bundle.putString("book author", options.getSnapshots().get(position).getAuthor());

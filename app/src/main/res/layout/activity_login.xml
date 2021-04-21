@@ -44,6 +44,7 @@
             android:layout_height="200dp"
             android:visibility="gone" />
 
+
         <EditText
             android:id="@+id/TextEmailLogin"
             android:layout_width="match_parent"
@@ -76,7 +77,7 @@
             android:layout_width="150dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="55dp"
             android:background="@drawable/rounded_corners_1"
             android:backgroundTint="#F1F1F1"
             android:fontFamily="sans-serif-black"

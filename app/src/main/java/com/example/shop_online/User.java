@@ -5,8 +5,9 @@ import java.util.ArrayList;
 public class User {
 
     private String firstName, lastName, email;
-    private ArrayList<CartItem> cart;
 
+    public User (){
+    }
 
     public User(String firstName, String lastName, String email){
         this.firstName = firstName;
@@ -39,16 +40,8 @@ public class User {
         this.email = email;
     }
 
-    public ArrayList<CartItem> getCart() {
-        return cart;
-    }
 
-    public void setCart(ArrayList<CartItem> cart) {
-        this.cart = cart;
-    }
 
-    public User (){
-    }
 
 
 }

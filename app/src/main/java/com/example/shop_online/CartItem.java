@@ -5,11 +5,8 @@ public class CartItem {
     private int quantity, index;
     private float price;
 
-    private static int cartIndex = 0;
 
     public CartItem(){
-        index = cartIndex;
-        cartIndex++;
     };
 
     public String getImageLink() {
@@ -24,13 +21,6 @@ public class CartItem {
     }
 
 
-    public static int getCartIndex() {
-        return cartIndex;
-    }
-
-    public static void setCartIndex(int cartIndex) {
-        CartItem.cartIndex = cartIndex;
-    }
 
     public int getIndex() {
         return index;

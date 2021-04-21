@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private DatabaseReference databaseReference;
-    private Button logoutButton, cartButton, ordersButton;
+    private Button logoutButton, ordersButton;
     private TextView userNameText;
     private String userName;
     private ImageView imageProfile;
@@ -114,11 +114,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Log.i("test","profile fragment");
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
         logoutButton = v.findViewById(R.id.logoutButton);
-        cartButton = v.findViewById(R.id.cartButton);
         ordersButton = v.findViewById(R.id.ordersButton);
         userNameText = v.findViewById(R.id.TextUserName);
         logoutButton.setOnClickListener(this);
-        cartButton.setOnClickListener(this);
         ordersButton.setOnClickListener(this);
 
         imageProfile = v.findViewById(R.id.profileImage);
@@ -145,11 +143,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.logoutButton:
                 logOut();
                 break;
-
-            case R.id.cartButton:
-                break;
-
             case R.id.ordersButton:
+                Intent intent = new Intent(getActivity(), OrdersActivity.class);
+                startActivity(intent);
                 break;
         }
     }
