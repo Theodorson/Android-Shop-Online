@@ -1,21 +1,20 @@
-package com.example.shop_online;
+package com.example.shop_online.order;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.shop_online.MainActivity;
+import com.example.shop_online.R;
+import com.example.shop_online.cart.CartItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class OrderActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
@@ -126,7 +124,7 @@ public class OrderActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.cartFragment:
-                startActivity(new Intent(this,MainActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.homeFragment:
                 Intent intent = new Intent(this,MainActivity.class);

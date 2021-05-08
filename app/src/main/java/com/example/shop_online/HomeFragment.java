@@ -1,37 +1,34 @@
 package com.example.shop_online;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
+import com.example.shop_online.book.Book;
+import com.example.shop_online.book.BookItemActivity;
+import com.example.shop_online.book.BookViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +38,7 @@ import java.net.URL;
 public class HomeFragment extends Fragment {
     private FirebaseRecyclerAdapter adapter;
     private RecyclerView recyclerView;
-
+    private Toolbar toolbar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,11 +87,130 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // set up appbar
+        toolbar = view.findViewById(R.id.appbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setHasOptionsMenu(true);
+
+
+        // set up recycleView for books
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.appbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.orderOption:
+                Toast.makeText(getActivity(), "order by price", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.settingsOption:
+                Toast.makeText(getActivity(), "settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.searchOption:
+                SearchView searchView = (SearchView) item.getActionView();
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        filter(newText);
+                        return false;
+                    }
+                });
+                Toast.makeText(getActivity(), "search", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
+    }
+
+    private void filter(String newText) {
+
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("books").orderByChild("name").startAt(newText).endAt(newText+'~');
+
+        FirebaseRecyclerOptions<Book> options =
+                new FirebaseRecyclerOptions.Builder<Book>()
+                        .setQuery(query, snapshot -> {
+                            int bookPages = Integer.parseInt(snapshot.child("pages").getValue().toString());
+                            float bookPrice = Float.parseFloat(snapshot.child("price").getValue().toString());
+                            String imageLink = snapshot.child("imageLink").getValue().toString();
+                            Book book = new Book(
+                                    snapshot.child("name").getValue().toString(),
+                                    snapshot.child("author").getValue().toString(),
+                                    snapshot.child("publisher").getValue().toString(),
+                                    snapshot.child("language").getValue().toString(),
+                                    snapshot.child("publicationDate").getValue().toString(),
+                                    snapshot.child("description").getValue().toString(),
+                                    imageLink,
+                                    bookPages,
+                                    bookPrice
+                            );
+                            return book;
+                        })
+                        .build();
+
+
+        // set the adapter
+        adapter = new FirebaseRecyclerAdapter<Book, BookViewHolder>(options) {
+            @NonNull
+            @Override
+            public BookViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.book_item, viewGroup,false);
+                BookViewHolder bookViewHolder = new BookViewHolder(view);
+                bookViewHolder.setOnClickListener(new BookViewHolder.ClickListener(){
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("book name", options.getSnapshots().get(position).getName());
+                        bundle.putString("book author", options.getSnapshots().get(position).getAuthor());
+                        bundle.putString("book language", options.getSnapshots().get(position).getLanguage());
+                        bundle.putString("book publisher", options.getSnapshots().get(position).getPublisher());
+                        bundle.putString("book publication date", options.getSnapshots().get(position).getPublicationDate());
+                        bundle.putString("book pages", String.valueOf(options.getSnapshots().get(position).getPages()));
+                        bundle.putString("book price", String.valueOf(options.getSnapshots().get(position).getPrice()));
+                        bundle.putString("book description", options.getSnapshots().get(position).getDescription());
+                        bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());
+                        bundle.putInt("book position", position);
+                        Intent intent = new Intent(getActivity(), BookItemActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+                    }
+                });
+
+                return bookViewHolder;
+            }
+
+            // bind data to list_item
+            @Override
+            protected void onBindViewHolder(@NonNull BookViewHolder holder, int position, @NonNull Book model) {
+                holder.setBookName(model.getName());
+                holder.setBookAuthor(model.getAuthor());
+                holder.setBookPrice(model.getPrice());
+                Picasso.get().load(model.getImageLink()).resize(100,150).into(holder.getImageView());
+            }
+        };
+
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+
     }
 
     @Override
@@ -134,7 +250,7 @@ public class HomeFragment extends Fragment {
             @Override
             public BookViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
                 View view = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.list_item, viewGroup,false);
+                        .inflate(R.layout.book_item, viewGroup,false);
                 BookViewHolder bookViewHolder = new BookViewHolder(view);
                 bookViewHolder.setOnClickListener(new BookViewHolder.ClickListener(){
                     @Override
@@ -150,7 +266,7 @@ public class HomeFragment extends Fragment {
                         bundle.putString("book description", options.getSnapshots().get(position).getDescription());
                         bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());
                         bundle.putInt("book position", position);
-                        Intent intent = new Intent(getActivity(),BookItemActivity.class);
+                        Intent intent = new Intent(getActivity(), BookItemActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
 

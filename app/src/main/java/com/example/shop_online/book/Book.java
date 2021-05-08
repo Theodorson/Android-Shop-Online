@@ -1,4 +1,4 @@
-package com.example.shop_online;
+package com.example.shop_online.book;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;

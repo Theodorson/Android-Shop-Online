@@ -1,4 +1,4 @@
-package com.example.shop_online;
+package com.example.shop_online.cart;
 
 import android.view.View;
 import android.widget.Button;
@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.shop_online.R;
 
 public class CartViewHolder extends RecyclerView.ViewHolder{
 

@@ -1,4 +1,4 @@
-package com.example.shop_online;
+package com.example.shop_online.order;
 
 public class Order {
     private String county, street, village, userName, date;

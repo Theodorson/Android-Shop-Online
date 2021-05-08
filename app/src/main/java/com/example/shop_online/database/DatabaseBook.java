@@ -1,9 +1,8 @@
-package com.example.shop_online;
+package com.example.shop_online.database;
 
+import com.example.shop_online.book.Book;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 public class DatabaseBook {
 

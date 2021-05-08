@@ -8,7 +8,8 @@
         android:id="@+id/homeFragment"
         android:name="com.example.shop_online.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.shop_online.ProfileFragment"
@@ -16,7 +17,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.example.shop_online.CartFragment"
+        android:name="com.example.shop_online.cart.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
 </navigation>

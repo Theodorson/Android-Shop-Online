@@ -17,17 +17,17 @@
     <application
         android:name=".Session"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_book_shop_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_book_shop_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shop_Online">
-        <activity android:name=".OrdersActivity"></activity>
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".BookItemActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".order.OrdersActivity"></activity>
+        <activity android:name=".order.OrderActivity" />
+        <activity android:name=".book.BookItemActivity" />
+        <activity android:name=".login.RegisterActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

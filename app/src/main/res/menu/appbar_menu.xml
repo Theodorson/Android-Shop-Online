@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/orderOption"
+        android:icon="@drawable/ic_baseline_order"
+        android:title="Order by price"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/settingsOption"
+        android:icon="@drawable/ic_baseline_settings"
+        android:title="Settings"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/searchOption"
+        android:icon="@drawable/ic_baseline_search"
+        android:title="Search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.widget.SearchView"
+        />
+</menu>

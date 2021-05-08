@@ -1,4 +1,4 @@
-package com.example.shop_online;
+package com.example.shop_online.cart;
 
 public class CartItem {
     private String name, imageLink;

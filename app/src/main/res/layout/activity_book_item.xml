@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_item"
-    tools:context=".BookItemActivity">
+    tools:context=".book.BookItemActivity">
 
 
     <LinearLayout
