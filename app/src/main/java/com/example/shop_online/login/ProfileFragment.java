@@ -1,4 +1,4 @@
-package com.example.shop_online;
+package com.example.shop_online.login;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,7 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shop_online.login.LoginActivity;
+import com.example.shop_online.R;
+import com.example.shop_online.admin.ManagementActivity;
 import com.example.shop_online.order.OrdersActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +51,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private DatabaseReference databaseReference;
-    private Button logoutButton, ordersButton;
+    private Button logoutButton, ordersButton, adminManagementButton;
     private TextView userNameText;
     private String userName;
     private ImageView imageProfile;
@@ -108,15 +109,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        Log.i("test","profile fragment");
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
         logoutButton = v.findViewById(R.id.logoutButton);
         ordersButton = v.findViewById(R.id.ordersButton);
+        adminManagementButton = v.findViewById(R.id.managementAdminButton);
         userNameText = v.findViewById(R.id.TextUserName);
         logoutButton.setOnClickListener(this);
         ordersButton.setOnClickListener(this);
-
+        adminManagementButton.setOnClickListener(this);
         imageProfile = v.findViewById(R.id.profileImage);
         imageProfile.setClickable(true);
         imageProfile.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +128,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         // take details from user
         // user name = last name + first name
-        getUserNameFromDatabaseAndSetText();
+        // setup buttons for com.example.shop_online.admin user or simple user
+        getDataFromUser();
         // check if user has profile image, and set image
         checkIfUserHasProfileImage();
 
@@ -145,16 +146,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), OrdersActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.managementAdminButton:
+                Intent intent1 = new Intent(getActivity(), ManagementActivity.class);
+                startActivity(intent1);
+                break;
         }
     }
 
-    public void getUserNameFromDatabaseAndSetText(){
+    public void getDataFromUser(){
         databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                userName = snapshot.child("lastName").getValue().toString() + " " + snapshot.child("firstName").getValue().toString();
                userNameText.setText(userName);
-
+               Boolean admin = (Boolean) snapshot.child("admin").getValue();
+               if(admin.booleanValue()){
+                    ordersButton.setVisibility(View.GONE);
+                    adminManagementButton.setVisibility(View.VISIBLE);
+               }
+               else{
+                    adminManagementButton.setVisibility(View.GONE);
+                    ordersButton.setVisibility(View.VISIBLE);
+               }
             }
 
             @Override
@@ -171,7 +184,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(Uri uri) {
                 // image exist
-                Picasso.get().load(uri).resize(180,180).into(imageProfile);
+                Picasso.get().load(uri).fit().into(imageProfile);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -180,8 +193,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 Log.i("Database","Profil Image not found");
             }
         });
-
-
     }
 
 
@@ -241,7 +252,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     public Bitmap adjustImage(String picturePath){
         Bitmap b = null;
-        int reqHeight = 180, reqWidth = 180;
+        int reqHeight = 135, reqWidth = 135;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
         b = BitmapFactory.decodeFile(picturePath, options);

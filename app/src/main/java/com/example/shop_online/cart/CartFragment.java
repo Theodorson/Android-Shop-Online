@@ -41,7 +41,7 @@ public class CartFragment extends Fragment {
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
     private TextView totalPriceText, cartEmptyText;
-    private Button placeOrderBtn;
+    private Button placeOrderBtn, removeAllBtn;
     private ImageView cartEmptyImage;
     private DatabaseReference databaseReference;
 
@@ -98,6 +98,14 @@ public class CartFragment extends Fragment {
 
         totalPriceText = view.findViewById(R.id.totalCartPrice);
         placeOrderBtn = view.findViewById(R.id.placeOrderButton);
+        removeAllBtn = view.findViewById(R.id.removeAllButton);
+        removeAllBtn.setVisibility(View.GONE);
+        removeAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            removeCartItemFromDatabase(0,2,0);
+            }
+        });
         placeOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,11 +160,13 @@ public class CartFragment extends Fragment {
                 super.onDataChanged();
 
                 if (adapter.getItemCount() == 0) {
+                    removeAllBtn.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                     totalPriceText.setVisibility(View.GONE);
                     placeOrderBtn.setVisibility(View.GONE);
                     cartEmptyText.setVisibility(View.VISIBLE);
                     cartEmptyImage.setVisibility(View.VISIBLE);
+
                 }
                     else {
                         cartEmptyText.setVisibility(View.GONE);
@@ -164,6 +174,7 @@ public class CartFragment extends Fragment {
                         recyclerView.setVisibility(View.VISIBLE);
                         totalPriceText.setVisibility(View.VISIBLE);
                         placeOrderBtn.setVisibility(View.VISIBLE);
+                        removeAllBtn.setVisibility(View.VISIBLE);
                     }
             }
 
@@ -231,9 +242,11 @@ public class CartFragment extends Fragment {
     private void removeCartItemFromDatabase(int modelPosition, int changeItem, int quantityItem){
         switch (changeItem) {
             case 0:
+                // increment quantity
                 databaseReference.child("cart").child(String.valueOf(modelPosition)).child("quantity").setValue(quantityItem);
                 break;
             case 1:
+                // remove one cart item
                 databaseReference.child("cart").child(String.valueOf(modelPosition)).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -242,6 +255,20 @@ public class CartFragment extends Fragment {
                         }
                         else {
                             Log.i("data", "Remove failed");
+                        }
+                    }
+                });
+                break;
+            case 2:
+                // remove all cart items
+                databaseReference.child("cart").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("data", "Remove all cart items");
+                        }
+                        else {
+                            Log.i("data", "Remove cart failed");
                         }
                     }
                 });

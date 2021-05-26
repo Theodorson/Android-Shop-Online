@@ -6,8 +6,8 @@ import android.os.Parcelable;
 
 public class Book {
 
-    private String id, name, author, publisher, language, publicationDate, description, imageLink;
-    private int pages;
+    private String name, author, publisher, language, publicationDate, description, imageLink;
+    private int id, pages;
     private float price;
     private Bitmap image;
 
@@ -26,9 +26,14 @@ public class Book {
     }
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

@@ -34,7 +34,7 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
     private FloatingActionButton addToCartButton;
 
     private float price;
-    private int position;
+    private int id;
     private String imageLink;
 
     private DatabaseReference databaseReference;
@@ -72,7 +72,7 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
 
     public void initBookItem(){
         Intent intent = getIntent();
-        position = intent.getExtras().getInt("book position");
+        id = intent.getExtras().getInt("book id");
         bookNameText.setText(intent.getExtras().getString("book name"));
         price = Float.parseFloat(intent.getExtras().getString("book price"));
         bookPriceText.setText(intent.getExtras().getString("book price") + "€");
@@ -95,7 +95,6 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.addToCartFloatingButton:
-                Log.i("Button", "Add To cart");
                 addToCart();
                 break;
         }
@@ -105,14 +104,14 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
         databaseReference.child(mAuth.getUid()).child("cart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild(String.valueOf(position))) {
+                if (snapshot.hasChild(String.valueOf(id))) {
                     Toast.makeText(getApplicationContext(), "Product already in your cart!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     CartItem cartItem = new CartItem(bookNameText.getText().toString(), imageLink, 1, price);
-                    cartItem.setIndex(position);
+                    cartItem.setIndex(id);
 
-                    databaseReference.child(mAuth.getUid()).child("cart").child(String.valueOf(position)).setValue(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    databaseReference.child(mAuth.getUid()).child("cart").child(String.valueOf(id)).setValue(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {

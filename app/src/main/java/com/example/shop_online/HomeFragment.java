@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -113,6 +114,7 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.orderOption:
+                filter("", 2);
                 Toast.makeText(getActivity(), "order by price", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.settingsOption:
@@ -128,7 +130,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        filter(newText);
+                        filter(newText, 1);
                         return false;
                     }
                 });
@@ -138,11 +140,21 @@ public class HomeFragment extends Fragment {
         return true;
     }
 
-    private void filter(String newText) {
+    private void filter(String newText, int option) {
+        Query query = null;
+        switch (option){
+            case 1:
+                query = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("books").orderByChild("name").startAt(newText).endAt(newText+'~');
+                break;
+            case 2:
+                query = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("books").orderByChild("price");
+                break;
+        }
 
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("books").orderByChild("name").startAt(newText).endAt(newText+'~');
 
         FirebaseRecyclerOptions<Book> options =
                 new FirebaseRecyclerOptions.Builder<Book>()
@@ -161,6 +173,7 @@ public class HomeFragment extends Fragment {
                                     bookPages,
                                     bookPrice
                             );
+                            book.setId(Integer.parseInt(snapshot.child("id").getValue().toString()));
                             return book;
                         })
                         .build();
@@ -187,7 +200,7 @@ public class HomeFragment extends Fragment {
                         bundle.putString("book price", String.valueOf(options.getSnapshots().get(position).getPrice()));
                         bundle.putString("book description", options.getSnapshots().get(position).getDescription());
                         bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());
-                        bundle.putInt("book position", position);
+                        bundle.putInt("book id", options.getSnapshots().get(position).getId());
                         Intent intent = new Intent(getActivity(), BookItemActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -239,6 +252,7 @@ public class HomeFragment extends Fragment {
                                     bookPages,
                                     bookPrice
                             );
+                            book.setId(Integer.parseInt(snapshot.child("id").getValue().toString()));
                             return book;
                         })
                         .build();
@@ -265,7 +279,7 @@ public class HomeFragment extends Fragment {
                         bundle.putString("book price", String.valueOf(options.getSnapshots().get(position).getPrice()));
                         bundle.putString("book description", options.getSnapshots().get(position).getDescription());
                         bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());
-                        bundle.putInt("book position", position);
+                        bundle.putInt("book id", options.getSnapshots().get(position).getId());
                         Intent intent = new Intent(getActivity(), BookItemActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);

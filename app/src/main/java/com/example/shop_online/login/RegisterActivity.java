@@ -178,13 +178,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         else{
                             Log.i(TAG, "\"No user with this mail\"");
 
+                            // creare user com.example.shop_online.admin
+//                            mAuth.createUserWithEmailAndPassword("com.example.shop_online.admin@gmail.com", "admin1234").addOnCompleteListener(task3 -> {
+//                                if (task3.isSuccessful()){
+//                                    User user1 = new User("com.example.shop_online.admin", "com.example.shop_online.admin", "com.example.shop_online.admin@gmail.com");
+//                                    user1.setAdmin(true);
+//                                    FirebaseDatabase.getInstance().getReference("Users")
+//                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                            .setValue(user1);
+//                                }
+//                            });
+
+
+
+
                             // add user with email and password
                             mAuth.createUserWithEmailAndPassword(email, password)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()){
 
                                             User user = new User(firstName,lastName,email);
-
+                                            user.setAdmin(false);
                                             FirebaseDatabase.getInstance().getReference("Users")
                                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                     .setValue(user).addOnCompleteListener(task2 -> {

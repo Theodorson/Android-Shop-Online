@@ -12,7 +12,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.shop_online.ProfileFragment"
+        android:name="com.example.shop_online.login.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
@@ -20,4 +20,25 @@
         android:name="com.example.shop_online.cart.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <action
+        android:id="@+id/action_global_cartFragment"
+        app:destination="@id/cartFragment"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/fragment_open_enter"
+        app:popExitAnim="@anim/fragment_open_exit" />
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/fragment_open_enter"
+        app:popExitAnim="@anim/fragment_open_exit" />
 </navigation>

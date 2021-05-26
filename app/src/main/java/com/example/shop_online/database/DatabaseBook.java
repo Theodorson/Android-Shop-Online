@@ -15,7 +15,7 @@ public class DatabaseBook {
         Book book1 = new Book(
                 "Attack On Titan 1", "Hajime Isayama", "Kodansha America, Inc", "English",
                 "19 Jun 2012", "Several hundred years ago, humans were nearly exterminated by giants. Giants are typically several stories tall, seem to have no intelligence and who devour human beings. A small percentage of humanity survied barricading themselves in a city protected by walls even taller than the biggest of giants. Flash forward to the present and the city has not seen a giant in over 100 years - before teenager Eren and his foster sister Mikasa witness something horrific as the city walls are destroyed by a super-giant that appears from nowhere.",
-                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/6126/9781612620244.jpg", 200, 55.9f
+                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/6126/9781612620244.jpg", 200, 55
                 );
         Book book2 = new Book(
                 "Jujutsu Kaisen 1", "Gege Akutami", "NORMA EDITORIAL, S.A.", "Spain",
@@ -63,7 +63,7 @@ public class DatabaseBook {
                 "My Hero Academia, Vol. 4", "Kohei Horikoshi", "Viz Media, Subs. of Shogakukan Inc", "English",
                 " 19 May 2016", "What would the world be like if 80 percent of the population manifested superpowers called \"Quirks\"? Heroes and villains would be battling it out everywhere! Being a hero would mean learning to use your power, but where would you go to study? The Hero Academy of course! But what would you do if you were one of the 20 percent who were born Quirkless?\n" +
                 "The U.A. High sports festival is a chance for the budding heroes to show their stuff and find a superhero mentor. The students have already struggled through a grueling preliminary round, but now they have to team up to prove they're capable of moving on to the next stage. The whole country is watching, and so are the shadowy forces that attacked the academy...",
-                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421585116.jpg", 192, 32.5f
+                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421585116.jpg", 192, 32
         );
         Book book10 = new Book(
                 "One-Punch Man, Vol. 1", "One", "Viz Media, Subs. of Shogakukan Inc", "English",
@@ -73,14 +73,14 @@ public class DatabaseBook {
         Book book11 = new Book(
                 "Berserk Deluxe Volume 1", "Kentaro Miura", "Dark Horse Comics,U.S.", "English",
                 "25 Apr 2019", "Have you got the Guts? Kentaro Miura's Berserk has outraged, horrified, and delighted manga and anime fanatics since 1989, creating an international legion of hardcore devotees and inspiring a plethora of TV series, feature films, and video games. And now the badass champion of adult fantasy manga is presented in an oversized 7 x 10 deluxe hardcover edition, nearly 700 pages amassing the first three Berserk volumes, with following volumes to come to serve up the entire series in handsome bookshelf collections. No Guts, no glory!",
-                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/5067/9781506711980.jpg", 696, 75.9f
+                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/5067/9781506711980.jpg", 696, 75
         );
         Book book12 = new Book(
                 "Naruto, Vol. 1", "Masashi Kishimoto ", "Viz Media, Subs. of Shogakukan Inc", "English",
                 " 03 Sep 2007", "Naruto is a ninja-in-training with a need for attention, a knack for mischief, and sealed within him, a strange, formidable power. His antics amuse his instructor Kakashi and irritate his teammates, intense Sasuki and witty Sakura, but Naruto is serious about becoming the greatest ninja in the village of Konohagakure!\n" +
                 "\n" +
                 "In another world, ninja are the ultimate power - and in the village of Konohagakure live the stealthiest ninja in the world. But twelve years ago Konohagakure was attacked by a fearsome threat - a nine-tailed fox demon which claims the life of the Hokage, the village champion. Today, peace has returned, and a troublemaking orphan named Uzumaki Naruto is struggling to graduate from the Ninja Academy. His goal: to become the next Hokage. But unknown to Naruto and his classmates, within him is a terrifying force...",
-                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/5693/9781569319000.jpg", 192, 25.0f
+                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/5693/9781569319000.jpg", 192, 25
         );
         Book book13 = new Book(
                 "Hunter x Hunter, Vol. 34", "Yoshihiro Togashi ", "Viz Media, Subs. of Shogakukan Inc", "English",
@@ -89,18 +89,34 @@ public class DatabaseBook {
                 "Hunters are a special breed, dedicated to tracking down treasures, magical beasts, and even other people. But such pursuits require a license, and less than one in a hundred thousand can pass the grueling qualification exam. Those who do pass gain access to restricted areas, amazing stores of information, and the right to call themselves Hunters.\n" +
                 "\n" +
                 "All aboard the Black Whale, because the journey to the Dark Continent is beginning! And this will be anything but a pleasure cruise, because the King of Kakin has ordered his princes to fight to the death to succeed him-on the ship! But this won't be an ordinary battle. They'll be using hired guards with fantastic powers to fight! Including Kurapika and some of the Zodiac members! ",
-                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421599489.jpg", 208, 45.5f
+                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421599489.jpg", 208, 45
         );
         Book book14 = new Book(
                 "Fullmetal Alchemist (3-in-1 Edition)", "Hiromu Arakawa", "Viz Media, Subs. of Shogakukan Inc", "English",
                 "23 Jun 2011", "Contains volumes 1, 2 and 3 of Fullmetal Alchemist. Alchemy: the mystical power to alter the natural world, somewhere between magic art, and science. When two brothers, Edward and Alphonse Elric, dabbled in these powers to grant their dearest wish, one of them lost an arm and leg...and the other became nothing but a soul locked into a body of living iron. Now they are agents of the government, slaves of the military -alchemical complex, using their unique powers to obey their orders...even to kill. But their powers aren't unique. The world crawls with evil alchemists. And in pursuit of the ultimate alchemical treasure, the Philsopher's Stone, their enemies are even more ruthless than they are...",
-                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421540184.jpg", 576, 80.0f
+                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421540184.jpg", 576, 80
         );
         Book book15 = new Book(
                 "Bleach, Vol. 25", "Tite Kubo ", "Viz Media, Subs. of Shogakukan Inc", "English",
                 "05 Jan 2009", "Part-time student, full-time Soul Reaper, Ichigo is one of the chosen few guardians of the afterlife. Ichigo Kurosaki never asked for the ability to see ghosts--he was born with the gift. When his family is attacked by a Hollow--a malevolent lost soul--Ichigo becomes a Soul Reaper, dedicating his life to protecting the innocent and helping the tortured spirits themselves find peace. Find out why Tite Kubo's Bleach has become an international manga smash-hit! Ichigo's recent battles with the Arrancars have proven that if he wants to protect his friends he must get stronger, and the only way to do that is to control his inner Hollow. Ichigo turns to the Visoreds, ex-Soul Reapers who have been Hollowfied, to teach him. But before his training begins, Ichigo must do battle against his Hollow self--winner takes his soul!",
-                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421517964.jpg", 200, 35.9f
+                "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/4215/9781421517964.jpg", 200, 35
         );
+        //set id-s
+        book1.setId(1);
+        book2.setId(2);
+        book3.setId(3);
+        book4.setId(4);
+        book5.setId(5);
+        book6.setId(6);
+        book7.setId(7);
+        book8.setId(8);
+        book9.setId(9);
+        book10.setId(10);
+        book11.setId(11);
+        book12.setId(12);
+        book13.setId(13);
+        book14.setId(14);
+        book15.setId(15);
 
         databaseRef = FirebaseDatabase.getInstance().getReference().child("books");
         databaseRef.push().setValue(book1);
@@ -118,8 +134,6 @@ public class DatabaseBook {
         databaseRef.push().setValue(book13);
         databaseRef.push().setValue(book14);
         databaseRef.push().setValue(book15);
-
-
     }
 
 }

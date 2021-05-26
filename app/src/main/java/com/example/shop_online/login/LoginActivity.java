@@ -58,7 +58,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         //databaseInit = new DatabaseBook();
-
+        //databaseInit.populateDatabase();
+        //initDatabase();
     }
 
     public void initDatabase(){
@@ -88,7 +89,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     AlertDialog alert = dialog.create();
                     alert.show();
                 }
-                //initDatabase();
                 break;
         }
     }
