@@ -7,12 +7,12 @@ import android.os.Parcelable;
 public class Book {
 
     private String name, author, publisher, language, publicationDate, description, imageLink;
-    private int id, pages;
+    private int id, pages, nrOfModel;
     private float price;
-    private Bitmap image;
+
 
     public Book(){}
-    public Book(String name, String author, String publisher, String language, String publicationDate, String description, String imageLink, int pages, float price)
+    public Book(String name, String author, String publisher, String language, String publicationDate, String description, String imageLink, int pages, int nrOfModel,float price)
     {
         this.name = name;
         this.author = author;
@@ -21,10 +21,18 @@ public class Book {
         this.publicationDate = publicationDate;
         this.description = description;
         this.pages = pages;
+        this.nrOfModel = nrOfModel;
         this.price = price;
         this.imageLink = imageLink;
     }
 
+    public int getNrOfModel() {
+        return nrOfModel;
+    }
+
+    public void setNrOfModel(int nrOfModel) {
+        this.nrOfModel = nrOfModel;
+    }
 
     public int getId() {
         return id;
@@ -69,14 +77,5 @@ public class Book {
     public String getImageLink() {
         return imageLink;
     }
-
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
-
 
 }

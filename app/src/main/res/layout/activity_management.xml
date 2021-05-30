@@ -46,7 +46,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintVertical_bias="0.56">
 
         <TextView
             android:id="@+id/textViewNumberOfBooks"
@@ -152,5 +152,18 @@
             android:text="Add new book"
             app:icon="@drawable/ic_baseline_new" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/backProfileButton"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        app:icon="@drawable/ic_arrow_back"
+        app:iconSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11"
+        app:layout_constraintVertical_bias="0.38" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

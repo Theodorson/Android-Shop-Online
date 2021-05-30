@@ -15,6 +15,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.00999999">
@@ -26,7 +27,7 @@
             android:layout_gravity="center"
             android:cropToPadding="true"
             android:rotation="4"
-            android:rotationX="12"
+            android:rotationX="4"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -37,6 +38,7 @@
             android:gravity="center_vertical"
             android:text="Attack on Titan Volume 1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/purple_500"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -45,6 +47,7 @@
         android:id="@+id/linearLayout6"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
         android:gravity="fill"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
@@ -52,7 +55,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.6">
+        app:layout_constraintVertical_bias="0.89">
 
         <TextView
             android:id="@+id/bookDetailsItem"
@@ -63,6 +66,7 @@
             android:gravity="center|center_vertical"
             android:text="Details"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/purple_500"
             android:textSize="20sp" />
 
         <TextView
@@ -70,19 +74,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:fontFamily="@font/baloo"
+            android:fontFamily="sans-serif-black"
             android:gravity="center"
             android:text="125.21 euro"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#EF0A0A"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="245dp"
-        android:background="@drawable/background_home"
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +94,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.32">
+        app:layout_constraintVertical_bias="0.43">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -108,12 +112,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
                     android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/purple_500"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:paddingBottom="10sp"
                     android:text="Author IDK"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
                 <TextView
@@ -122,12 +127,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
                     android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
-                    android:backgroundTint="#FFFFFF"
+                    android:backgroundTint="@color/purple_500"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:paddingBottom="10sp"
                     android:text="Language English"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
                 <TextView
@@ -136,11 +142,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+                    android:backgroundTint="@color/purple_500"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:paddingBottom="10sp"
                     android:text="Publisher Konda"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
                 <TextView
@@ -149,11 +157,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+                    android:backgroundTint="@color/purple_500"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:paddingBottom="10sp"
                     android:text="Publication Date 21 June 2012"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
                 <TextView
@@ -162,11 +172,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+                    android:backgroundTint="@color/purple_500"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:paddingBottom="10sp"
                     android:text="Pages 120"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
                 <ScrollView
@@ -185,11 +197,13 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+                            android:backgroundTint="@color/purple_500"
                             android:fontFamily="sans-serif-black"
                             android:gravity="center_vertical"
                             android:paddingBottom="10sp"
                             android:text="dsadadsadasdsadasdsadsadsadsadadsadadsadasdsadaslkdj jdlsajdlk112i3u12oi3hkkajdhskajhcakjhckjsahdadpaosdpoi1231po3i12p3ok12jdksajdoiasdosaiudsaioudoasiduoasiduosaiduasoidas. ?????dasdj aodjasjdoasjdo1o321uo3i12"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="#FFFFFF"
                             android:textSize="15sp" />
                     </LinearLayout>
                 </ScrollView>
@@ -210,8 +224,27 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97"
+        app:layout_constraintVertical_bias="0.98"
         app:srcCompat="@drawable/ic_add_product" />
+
+    <TextView
+        android:id="@+id/textViewEmptyStock"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/baloo"
+        android:gravity="center"
+        android:text="EMPTY STOCK"
+        android:textColor="#EF0A0A"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.957" />
 
     <Button
         android:id="@+id/backHomeButton"
@@ -226,7 +259,54 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.32" />
+
+    <ToggleButton
+        android:id="@+id/disableBookButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/rounded_corners_1"
+        android:backgroundTint="?attr/colorError"
+        android:fontFamily="sans-serif-black"
+        android:longClickable="false"
+        android:text="Disable Button"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4" />
+
+    <Button
+        android:id="@+id/updateItemButton"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/rounded_corners_1"
+        android:fontFamily="sans-serif-black"
+        android:text="UPDATE"
+        app:layout_constraintBottom_toTopOf="@+id/deleteItemButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.57" />
+
+    <Button
+        android:id="@+id/deleteItemButton"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/rounded_corners_1"
+        android:fontFamily="sans-serif-black"
+        android:text="DELETE"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.49" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

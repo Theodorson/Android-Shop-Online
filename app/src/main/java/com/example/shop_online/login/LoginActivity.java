@@ -57,14 +57,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 dialog.cancel();
             }
         });
-        //databaseInit = new DatabaseBook();
-        //databaseInit.populateDatabase();
+        databaseInit = new DatabaseBook();
+
         //initDatabase();
     }
 
-    public void initDatabase(){
-        new Thread(() -> databaseInit.populateDatabase()).start();
-    }
+//    public void initDatabase(){
+//        new Thread(() -> databaseInit.populateDatabase()).start();
+//    }
 
 
     @Override
@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (checkInternetConnection())
                 {
                     loginUser();
+               //     databaseInit.populateDatabase();
                 }
                 else{
                     AlertDialog alert = dialog.create();

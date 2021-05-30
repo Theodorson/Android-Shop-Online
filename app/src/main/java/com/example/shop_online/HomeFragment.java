@@ -160,6 +160,7 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Book>()
                         .setQuery(query, snapshot -> {
                             int bookPages = Integer.parseInt(snapshot.child("pages").getValue().toString());
+                            int nrOfModel = Integer.parseInt(snapshot.child("nrOfModel").getValue().toString());
                             float bookPrice = Float.parseFloat(snapshot.child("price").getValue().toString());
                             String imageLink = snapshot.child("imageLink").getValue().toString();
                             Book book = new Book(
@@ -171,6 +172,7 @@ public class HomeFragment extends Fragment {
                                     snapshot.child("description").getValue().toString(),
                                     imageLink,
                                     bookPages,
+                                    nrOfModel,
                                     bookPrice
                             );
                             book.setId(Integer.parseInt(snapshot.child("id").getValue().toString()));
@@ -197,6 +199,7 @@ public class HomeFragment extends Fragment {
                         bundle.putString("book publisher", options.getSnapshots().get(position).getPublisher());
                         bundle.putString("book publication date", options.getSnapshots().get(position).getPublicationDate());
                         bundle.putString("book pages", String.valueOf(options.getSnapshots().get(position).getPages()));
+                        bundle.putInt("book nr model", options.getSnapshots().get(position).getNrOfModel());
                         bundle.putString("book price", String.valueOf(options.getSnapshots().get(position).getPrice()));
                         bundle.putString("book description", options.getSnapshots().get(position).getDescription());
                         bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());
@@ -239,6 +242,7 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Book>()
                         .setQuery(query, snapshot -> {
                             int bookPages = Integer.parseInt(snapshot.child("pages").getValue().toString());
+                            int nrOfModel = Integer.parseInt(snapshot.child("nrOfModel").getValue().toString());
                             float bookPrice = Float.parseFloat(snapshot.child("price").getValue().toString());
                             String imageLink = snapshot.child("imageLink").getValue().toString();
                             Book book = new Book(
@@ -250,6 +254,7 @@ public class HomeFragment extends Fragment {
                                     snapshot.child("description").getValue().toString(),
                                     imageLink,
                                     bookPages,
+                                    nrOfModel,
                                     bookPrice
                             );
                             book.setId(Integer.parseInt(snapshot.child("id").getValue().toString()));
@@ -276,6 +281,7 @@ public class HomeFragment extends Fragment {
                         bundle.putString("book publisher", options.getSnapshots().get(position).getPublisher());
                         bundle.putString("book publication date", options.getSnapshots().get(position).getPublicationDate());
                         bundle.putString("book pages", String.valueOf(options.getSnapshots().get(position).getPages()));
+                        bundle.putInt("book nr model", options.getSnapshots().get(position).getNrOfModel());
                         bundle.putString("book price", String.valueOf(options.getSnapshots().get(position).getPrice()));
                         bundle.putString("book description", options.getSnapshots().get(position).getDescription());
                         bundle.putString("book image link", options.getSnapshots().get(position).getImageLink());

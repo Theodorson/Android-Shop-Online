@@ -20,8 +20,6 @@ public class CartItem {
         this.price = price;
     }
 
-
-
     public int getIndex() {
         return index;
     }

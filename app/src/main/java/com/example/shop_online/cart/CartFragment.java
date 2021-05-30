@@ -224,13 +224,9 @@ public class CartFragment extends Fragment {
                 });
             }
         };
-
-
-
+        
         recyclerView.setAdapter(adapter);
         adapter.startListening();
-
-
     }
 
     @Override
