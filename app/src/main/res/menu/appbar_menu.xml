@@ -9,11 +9,10 @@
         app:showAsAction="ifRoom"
         />
     <item
-        android:id="@+id/settingsOption"
-        android:icon="@drawable/ic_baseline_settings"
-        android:title="Settings"
-        app:showAsAction="ifRoom"
-        />
+        android:id="@+id/gridOption"
+        android:icon="@drawable/ic_baseline_grid_view"
+        android:title="Grid"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/searchOption"
         android:icon="@drawable/ic_baseline_search"

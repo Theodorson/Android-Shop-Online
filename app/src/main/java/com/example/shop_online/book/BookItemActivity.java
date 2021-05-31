@@ -13,13 +13,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.example.shop_online.admin.NewBookActivity;
 import com.example.shop_online.cart.CartItem;
 import com.example.shop_online.MainActivity;
 import com.example.shop_online.R;
-import com.example.shop_online.order.OrderActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,14 +33,16 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
 
     private ImageView bookImage;
     private TextView bookNameText, bookAuthorText, bookLanguageText, bookDescriptionText,
-            bookPublisherText, bookPublicationDateText, bookPriceText, bookPagesText, bookDetailsText, bookStockText;
-    private Button buttonBack, buttonUpdate, buttonDelete;
+            bookPublisherText, bookPublicationDateText, bookPriceText,
+            bookPagesText, bookDetailsText, bookStockText, bookDisableText;
+    private Button buttonBack, buttonUpdate, buttonDelete, buttonDisable;
     private FloatingActionButton addToCartButton;
-    private ToggleButton buttonDisable;
+
 
     private float price;
     private int id, nrOfModel;
     private String imageLink;
+    private boolean available;
 
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
@@ -64,6 +64,7 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
         bookDescriptionText = findViewById(R.id.bookDescriptionItem);
         bookDetailsText = findViewById(R.id.bookDetailsItem);
         bookStockText = findViewById(R.id.textViewEmptyStock);
+        bookDisableText = findViewById(R.id.bookItemDisableText);
         bookDetailsText.setText("Details");
 
         buttonBack = findViewById(R.id.backHomeButton);
@@ -78,7 +79,7 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
         buttonDelete = findViewById(R.id.deleteItemButton);
         buttonDelete.setOnClickListener(this);
 
-        buttonDisable = findViewById(R.id.disableBookButton);
+        buttonDisable = findViewById(R.id.disableItemButton);
         buttonDisable.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -107,7 +108,7 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
                 AlertDialog alert = dialog.create();
                 alert.show();
                 break;
-            case R.id.disableBookButton:
+            case R.id.disableItemButton:
                 disableBookFromDatabase();
                 break;
         }
@@ -135,6 +136,7 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
     public void initBookItem(){
         Intent intent = getIntent();
         id = intent.getExtras().getInt("book id");
+        available = intent.getExtras().getBoolean("book available");
         nrOfModel = intent.getExtras().getInt("book nr model");
         bookNameText.setText(intent.getExtras().getString("book name"));
         price = Float.parseFloat(intent.getExtras().getString("book price"));
@@ -147,6 +149,18 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
         bookDescriptionText.setText("Description: \n" + intent.getExtras().getString("book description"));
         imageLink = intent.getExtras().getString("book image link");
         Picasso.get().load(imageLink).resize(150,180).into(bookImage);
+
+
+        if (!available){
+            bookDisableText.setVisibility(View.VISIBLE);
+            buttonDisable.setBackgroundResource(R.drawable.ic_baseline_lock);
+            addToCartButton.setVisibility(View.GONE);
+        }
+        else{
+            buttonDisable.setBackgroundResource(R.drawable.ic_baseline_lock_open);
+            bookDisableText.setVisibility(View.GONE);
+        }
+
 
         // test for admin mode
         databaseReference.child("Users").child(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -177,7 +191,9 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
                     }
                     else{
                         bookStockText.setVisibility(View.GONE);
-                        addToCartButton.setVisibility(View.VISIBLE);
+                        if (available) {
+                            addToCartButton.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
 
@@ -220,7 +236,21 @@ public class BookItemActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void disableBookFromDatabase(){
-        //TODO implement disable
+
+        if (available){
+            databaseReference.child("books").child(String.valueOf(id)).child("available").setValue(false);
+            available = false;
+            bookDisableText.setVisibility(View.VISIBLE);
+            buttonDisable.setBackgroundResource(R.drawable.ic_baseline_lock);
+        }
+        else{
+            databaseReference.child("books").child(String.valueOf(id)).child("available").setValue(true);
+            available = true;
+            bookDisableText.setVisibility(View.GONE);
+            buttonDisable.setBackgroundResource(R.drawable.ic_baseline_lock_open);
+        }
+
+
     }
 
 

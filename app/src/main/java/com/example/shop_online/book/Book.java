@@ -1,14 +1,11 @@
 package com.example.shop_online.book;
 
-import android.graphics.Bitmap;
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class Book {
 
     private String name, author, publisher, language, publicationDate, description, imageLink;
-    private int id, pages, nrOfModel;
+    private int id, pages, nrOfCopies;
     private float price;
+    private boolean available;
 
 
     public Book(){}
@@ -21,17 +18,25 @@ public class Book {
         this.publicationDate = publicationDate;
         this.description = description;
         this.pages = pages;
-        this.nrOfModel = nrOfModel;
+        this.nrOfCopies = nrOfModel;
         this.price = price;
         this.imageLink = imageLink;
     }
-
-    public int getNrOfModel() {
-        return nrOfModel;
+    
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setNrOfModel(int nrOfModel) {
-        this.nrOfModel = nrOfModel;
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public int getNrOfCopies() {
+        return nrOfCopies;
+    }
+
+    public void setNrOfCopies(int nrOfCopies) {
+        this.nrOfCopies = nrOfCopies;
     }
 
     public int getId() {

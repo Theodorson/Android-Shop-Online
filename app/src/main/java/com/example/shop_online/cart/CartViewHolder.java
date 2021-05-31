@@ -22,7 +22,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder{
        cartItemName = v.findViewById(R.id.cartBookName);
        cartItemQuantity = v.findViewById(R.id.cartBookQuantity);
        cartItemPrice = v.findViewById(R.id.cartBookPrice);
-       cartItemImage = v.findViewById(R.id.cartBookImage);
+       cartItemImage = v.findViewById(R.id.bookListItemImage);
        addBtn = v.findViewById(R.id.addBookButton);
        minusBtn = v.findViewById(R.id.minusBookButton);
        deleteBtn = v.findViewById(R.id.deleteBookButton);

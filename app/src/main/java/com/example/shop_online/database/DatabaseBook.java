@@ -118,6 +118,22 @@ public class DatabaseBook {
         book14.setId(14);
         book15.setId(15);
 
+        book1.setAvailable(true);
+        book2.setAvailable(true);
+        book3.setAvailable(true);
+        book4.setAvailable(true);
+        book5.setAvailable(true);
+        book6.setAvailable(true);
+        book7.setAvailable(true);
+        book8.setAvailable(true);
+        book9.setAvailable(true);
+        book10.setAvailable(true);
+        book11.setAvailable(true);
+        book12.setAvailable(true);
+        book13.setAvailable(true);
+        book14.setAvailable(true);
+        book15.setAvailable(true);
+
         databaseRef = FirebaseDatabase.getInstance().getReference().child("books");
         databaseRef.child("1").setValue(book1);
         databaseRef.child("2").setValue(book2);

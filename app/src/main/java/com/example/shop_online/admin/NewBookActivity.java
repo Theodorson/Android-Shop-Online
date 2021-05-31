@@ -149,7 +149,7 @@ public class NewBookActivity extends AppCompatActivity implements View.OnClickLi
                     textLinkImage.setText(snapshot.child("imageLink").getValue().toString());
                     textDescription.setText(snapshot.child("description").getValue().toString());
                     textPrice.setText(snapshot.child("price").getValue().toString());
-                    textNrOfCopies.setText(snapshot.child("nrOfModel").getValue().toString());
+                    textNrOfCopies.setText(snapshot.child("nrOfCopies").getValue().toString());
 
                     addNewBookBtn.setText("UPDATE");
                 }
@@ -194,6 +194,7 @@ public class NewBookActivity extends AppCompatActivity implements View.OnClickLi
                                 publicationDateStr, descriptionStr, linkImageStr,
                                 pages, nrOfCopies, price);
                         book.setId(newBookID);
+                        book.setAvailable(true);
                         databaseReference.child("books").child(String.valueOf(newBookID)).setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -242,7 +243,7 @@ public class NewBookActivity extends AppCompatActivity implements View.OnClickLi
                 databaseReference.child("books").child(String.valueOf(id)).child("price").setValue(Integer.parseInt(priceStr));
                 databaseReference.child("books").child(String.valueOf(id)).child("imageLink").setValue(linkImageStr);
                 databaseReference.child("books").child(String.valueOf(id)).child("description").setValue(descriptionStr);
-                databaseReference.child("books").child(String.valueOf(id)).child("nrOfModel").setValue(Integer.parseInt(nrOfCopiesStr));
+                databaseReference.child("books").child(String.valueOf(id)).child("nrOfCopies").setValue(Integer.parseInt(nrOfCopiesStr));
 
                 Toast.makeText(getApplicationContext(), "Book updated successfully", Toast.LENGTH_SHORT).show();
 

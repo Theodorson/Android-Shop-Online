@@ -1,47 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="200dp"
-android:orientation="horizontal">
-
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginStart="9dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="9dp"
-    android:orientation="horizontal"
-    android:paddingBottom="10dp">
-
-    <ImageView
-        android:id="@+id/bookListItemImage"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
-        android:rotation="-4" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="180dp"
+    android:layout_height="250dp"
+    android:orientation="horizontal">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="9dp"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/bookListItemGridImage"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:rotation="-4" />
+
 
         <TextView
-            android:id="@+id/BookText"
+            android:id="@+id/BookGridText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="sans-serif-black"
             android:gravity="fill_vertical"
-            android:text="Book Name"
+            android:text="Six of Crows: Collector's Edition : Book 1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/AuthorText"
+            android:id="@+id/AuthorGridText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,23 +44,22 @@ android:orientation="horizontal">
             android:gravity="fill"
             android:text="Author"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="14sp" />
+            android:textSize="11sp" />
 
         <TextView
-            android:id="@+id/PriceText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/PriceGridText"
+            android:layout_width="90dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:fontFamily="@font/baloo"
             android:gravity="center"
-            android:text="30"
+            android:text="155"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#BF0808"
-            android:textSize="20sp" />
+            android:textSize="22sp" />
 
     </LinearLayout>
-
-</LinearLayout>
 </LinearLayout>
 
 

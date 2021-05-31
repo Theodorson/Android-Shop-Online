@@ -18,7 +18,7 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
         bookName = v.findViewById(R.id.BookText);
         bookAuthor = v.findViewById(R.id.AuthorText);
         bookPrice = v.findViewById(R.id.PriceText);
-        bookImage = v.findViewById(R.id.cartBookImage);
+        bookImage = v.findViewById(R.id.bookListItemImage);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override

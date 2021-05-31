@@ -14,7 +14,8 @@
         android:id="@+id/profileFragment"
         android:name="com.example.shop_online.login.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.shop_online.cart.CartFragment"

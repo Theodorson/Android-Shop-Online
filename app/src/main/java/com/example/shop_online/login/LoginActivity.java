@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (checkInternetConnection())
                 {
                     loginUser();
-               //     databaseInit.populateDatabase();
+                //    databaseInit.populateDatabase();
                 }
                 else{
                     AlertDialog alert = dialog.create();

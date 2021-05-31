@@ -2,6 +2,8 @@ package com.example.shop_online.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.shop_online.MainActivity;
 import com.example.shop_online.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,7 +72,7 @@ public class ManagementActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent1);
                 break;
             case R.id.backProfileButton:
-                Intent intent2 = new Intent(this, NewBookActivity.class);
+                Intent intent2 = new Intent(this, MainActivity.class);
                 startActivity(intent2);
                 break;
 
