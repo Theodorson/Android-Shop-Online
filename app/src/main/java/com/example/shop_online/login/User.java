@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String firstName, lastName, email;
+    private String firstName, lastName, email, id;
     private boolean admin;
 
     public User (){
@@ -14,6 +14,14 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public boolean isAdmin() {
