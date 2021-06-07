@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ManagementActivity extends AppCompatActivity implements View.OnClickListener{
 
     private DatabaseReference databaseReference;
-    private TextView textNrBooks, textNrOrders, textNrAccounts, textNrBooksSold, textTotalEarn, textMostSoldBook;
+    private TextView textNrBooks, textNrOrders, textNrAccounts, textNrBooksSold, textTotalEarn;
     private Button btnAccounts, btnNewBook, btnBack;
 
     private String nrOfModelsBooks;
@@ -45,7 +45,6 @@ public class ManagementActivity extends AppCompatActivity implements View.OnClic
         textNrAccounts = findViewById(R.id.textViewNumberOfAccounts);
         textNrBooksSold = findViewById(R.id.textViewNumberOfBooksSold);
         textTotalEarn = findViewById(R.id.textViewTotalEarn);
-        textMostSoldBook= findViewById(R.id.textViewMostSoldBook);
         btnAccounts = findViewById(R.id.accountsAdminButton);
         btnNewBook = findViewById(R.id.newBookButton);
         btnBack = findViewById(R.id.backProfileButton);
@@ -126,7 +125,7 @@ public class ManagementActivity extends AppCompatActivity implements View.OnClic
             totalEarn += String.valueOf(incomeMoney);
             nrOfBooksSold += String.valueOf(booksSold);
             textNrOrders.setText(nrOfOrders);
-            textTotalEarn.setText(totalEarn);
+            textTotalEarn.setText(totalEarn + " €");
             textNrBooksSold.setText(nrOfBooksSold);
             }
 

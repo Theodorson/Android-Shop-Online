@@ -12,6 +12,7 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
     // list_item fields
     private final TextView bookName, bookAuthor, bookPrice;
     private final ImageView bookImage;
+    private BookViewHolder.ClickListener mClickListener;
 
     public BookViewHolder(View v) {
         super(v);
@@ -42,8 +43,6 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
         return this.bookImage;
     }
 
-
-    private BookViewHolder.ClickListener mClickListener;
 
     //Interface to send callbacks...
     public interface ClickListener{

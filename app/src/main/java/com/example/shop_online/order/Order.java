@@ -1,7 +1,7 @@
 package com.example.shop_online.order;
 
 public class Order {
-    private String county, street, village, userName, date;
+    private String county, street, village, userName, date, id;
 
     public String getDate() {
         return date;
@@ -20,6 +20,14 @@ public class Order {
         this.userName = userName;
         this.date = date;
         this.price = price;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCounty() {

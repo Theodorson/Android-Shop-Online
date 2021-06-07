@@ -275,6 +275,7 @@ public class HomeFragment extends Fragment {
                             Intent intent = new Intent(getActivity(), BookItemActivity.class);
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
                         }
                     });

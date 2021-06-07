@@ -271,4 +271,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+
 }

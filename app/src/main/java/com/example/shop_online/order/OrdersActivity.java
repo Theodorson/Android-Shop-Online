@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.example.shop_online.MainActivity;
 import com.example.shop_online.R;
+import com.example.shop_online.book.BookItemActivity;
+import com.example.shop_online.book.BookViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,8 +79,10 @@ public class OrdersActivity extends AppCompatActivity {
                                 String street = snapshot.child("details").child("street").getValue().toString();
                                 String userName = snapshot.child("details").child("userName").getValue().toString();
                                 String date = snapshot.child("details").child("date").getValue().toString();
+                                String id = snapshot.child("details").child("id").getValue().toString();
                                 float price = Float.parseFloat(snapshot.child("details").child("price").getValue().toString());
                                 Order order = new Order(county, street, village, userName, date, price);
+                                order.setId(id);
                                 return order;
                         })
                         .build();
@@ -114,8 +118,20 @@ public class OrdersActivity extends AppCompatActivity {
                 View view = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.order_item, viewGroup,false);
 
+                OrderViewHolder orderViewHolder = new OrderViewHolder(view);
+                orderViewHolder.setOnClickListener(new OrderViewHolder.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", options.getSnapshots().get(position).getId());
+                        Intent intent = new Intent(OrdersActivity.this, OrderDetailsActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                });
 
-                return new OrderViewHolder(view);
+                return orderViewHolder;
             }
 
             // bind data to list_item

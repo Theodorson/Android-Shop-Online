@@ -118,19 +118,6 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/textViewMostSoldBook"
-            android:layout_width="280dp"
-            android:layout_height="55dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/style_corners"
-            android:backgroundTint="@color/design_default_color_primary"
-            android:fontFamily="sans-serif-black"
-            android:text="Most sold book: Attack on Titan volume 1"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp" />
-
         <Button
             android:id="@+id/accountsAdminButton"
             android:layout_width="200dp"
@@ -138,6 +125,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:background="@drawable/rounded_corners_1"
+            android:backgroundTint="#7C4DFF"
             android:text="Accounts"
             android:visibility="visible"
             app:icon="@drawable/ic_baseline_manage_accounts" />
@@ -149,6 +137,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_corners_1"
+            android:backgroundTint="@color/design_default_color_primary"
             android:text="Add new book"
             app:icon="@drawable/ic_baseline_new" />
     </LinearLayout>
@@ -157,6 +146,7 @@
         android:id="@+id/backProfileButton"
         android:layout_width="80dp"
         android:layout_height="50dp"
+        android:backgroundTint="@color/design_default_color_primary"
         app:icon="@drawable/ic_arrow_back"
         app:iconSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout12"

@@ -146,11 +146,13 @@ public class OrderActivity extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
             String currentDateAndTime = sdf.format(new Date());
             Order order = new Order(county,street,village,userName, currentDateAndTime, totalPrice);
+            String id = "order-" + currentDateAndTime;
+            order.setId(id);
             for (int i = 0; i<cartItems.size(); i++)
             {
-                databaseReference.child("orders").child("order-" + currentDateAndTime).child("cart").push().setValue(cartItems.get(i));
+                databaseReference.child("orders").child(id).child("cart").push().setValue(cartItems.get(i));
             }
-            databaseReference.child("orders").child("order-" + currentDateAndTime).child("details").setValue(order).addOnCompleteListener(
+            databaseReference.child("orders").child(id).child("details").setValue(order).addOnCompleteListener(
                     new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -188,6 +190,7 @@ public class OrderActivity extends AppCompatActivity {
                             Integer.parseInt(snap.child("quantity").getValue().toString()),
                             Float.parseFloat(snap.child("price").getValue().toString())
                             );
+                    cartItem.setIndex(Integer.parseInt(snap.child("index").getValue().toString()));
                     totalPrice += cartItem.getPrice() * cartItem.getQuantity();
                     cartItems.add(cartItem);
                 }
@@ -268,5 +271,10 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
 }
